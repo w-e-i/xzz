@@ -55,10 +55,12 @@
         </li>
         <mu-infinite-scroll :scroller="scroller" :loading="loading" @load="loadMore"/>
       </ul>
+      <holdOrderModal></holdOrderModal>
   </div>
 </template>
 
 <script>
+  import holdOrderModal from './hold-order-modal.vue';
   export default {
     name: 'tabHistory',
     data () {
@@ -107,6 +109,9 @@
            }
          ]
       }
+    },
+    components: {
+      holdOrderModal
     },
     mounted () {
       this.trigger = this.$el,
@@ -171,16 +176,16 @@
     border-bottom: 1px solid #f9b729;
   }
 
-  .trade_history_list{
-    width: 100%;
-    height: 94%;
-  }
-  .trade_history_list ul{
+  .tab_history ul{
     width: 100%;
     height: 100%;
     background: #323232;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
   }
-  .trade_history_list ul li{
+  .tab_history ul li{
     width: 100%;
     height: 0.73rem;
     border-top:1px solid #404040;
@@ -188,8 +193,9 @@
     color: #FFFFFF;
     background: #282828;
     position: relative;
+    display: flex;
   }
-  .trade_history_list ul li article{
+  .tab_history ul li article{
     position: absolute;
     z-index: 1000;
     width: 100%;
@@ -198,7 +204,7 @@
     bottom: -0.05rem;
     background: transparent;
   }
-  .trade_history_list ul li article i{
+  .tab_history ul li article i{
     display: inline-block;
     vertical-align: top;
     margin-top:0.02rem ;
@@ -209,14 +215,14 @@
     box-shadow: 0 0 0.05rem yellow;
     float: right;
   }
-  .trade_history_list ul li article i em{
+  .tab_history ul li article i em{
     display: block;
     width: 0.04rem;
     height: 0.04rem;
     margin:0.01rem ;
     background: #ffffcd;
   }
-  .trade_history_list ul li article span{
+  .tab_history ul li article span{
     display: inline-block;
     vertical-align: top;
     margin-top:0.05rem ;
@@ -224,31 +230,31 @@
     background: #159aef;
     float: right;
   }
-  .trade_history_list ul li section{
+  .tab_history ul li section{
     display: inline-block;
     vertical-align: top;
     height: 100%;
     height: 0.7rem;
     padding-top: 0.05rem;
     text-align: center;
+    float: left;
   }
-  .trade_history_list ul li section:nth-of-type(1){
+  .tab_history ul li section:nth-of-type(1){
     width: 60%;
     margin-left: 3%;
   }
-  .trade_history_list ul li section:nth-of-type(2){
-  }
-  .trade_history_list ul li section:nth-of-type(1) p{
+
+  .tab_history ul li section:nth-of-type(1) p{
     height: 0.16rem;
     line-height: 0.16rem;
     text-align: left;
     font-size: 0.12rem;
   }
-  .trade_history_list ul li section:nth-of-type(1) p:nth-of-type(1){
+  .tab_history ul li section:nth-of-type(1) p:nth-of-type(1){
     height: 0.3rem;
     line-height: 0.3rem;
   }
-  .trade_history_list ul li section:nth-of-type(1) p:nth-of-type(1) span:nth-of-type(1){
+  .tab_history ul li section:nth-of-type(1) p:nth-of-type(1) span:nth-of-type(1){
     display: inline-block;
     vertical-align: top;
     width: 45%;
@@ -258,34 +264,34 @@
     white-space:nowrap;
     text-overflow:ellipsis;
   }
-  .trade_history_list ul li section:nth-of-type(1) p:nth-of-type(1) span:nth-of-type(2){
+  .tab_history ul li section:nth-of-type(1) p:nth-of-type(1) span:nth-of-type(2){
     font-size:0.12rem ;
   }
-  .trade_history_list ul li section:nth-of-type(1) p:nth-of-type(1) span:nth-of-type(2) i{
+  .tab_history ul li section:nth-of-type(1) p:nth-of-type(1) span:nth-of-type(2) i{
     display: inline-block;
     vertical-align: middle;
     margin-right:0.05rem ;
     width: 0.12rem;
     height: 0.12rem;
   }
-  .trade_history_list ul li section:nth-of-type(1) p:nth-of-type(1) span:nth-of-type(2) .buytop{
+  .tab_history ul li section:nth-of-type(1) p:nth-of-type(1) span:nth-of-type(2) .buytop{
     background: url(../assets/img/buytop.png);
     background-size:100% 100% ;
   }
-  .trade_history_list ul li section:nth-of-type(1) p:nth-of-type(1) span:nth-of-type(2) .buydown{
+  .tab_history ul li section:nth-of-type(1) p:nth-of-type(1) span:nth-of-type(2) .buydown{
     background: url(../assets/img/buydown.png);
     background-size:100% 100% ;
   }
-  .trade_history_list ul li section:nth-of-type(1) p:nth-of-type(3){
+  .tab_history ul li section:nth-of-type(1) p:nth-of-type(3){
     color: #696969;
   }
-  .trade_history_list ul li section:nth-of-type(2) p:nth-of-type(1){
+  .tab_history ul li section:nth-of-type(2) p:nth-of-type(1){
     height: 0.35rem;
     line-height: 0.35rem;
     font-size: 0.24rem;
     text-align: right;
   }
-  .trade_history_list ul li section:nth-of-type(2) p:nth-of-type(2){
+  .tab_history ul li section:nth-of-type(2) p:nth-of-type(2){
     height: 0.25rem;
     line-height: 0.25rem;
     font-size: 0.13rem;

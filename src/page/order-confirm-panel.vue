@@ -72,7 +72,7 @@
           </mu-row>
           <mu-row gutter class="btn_confirm">
             <mu-col>
-              <button class="button" @click="order()" v-disabled="((order_params.other_amount == '' || order_params.other_amount == '0') ? order_params.amount : order_params.other_amount) < trade_money.min_money||((order_params.other_amount == '' || order_params.other_amount == '0') ? order_params.amount : order_params.other_amount) > user.amount">确认下单</button>
+              <button class="button" @click="order()">确认下单</button>
             </mu-col>
           </mu-row>
           <p class="expect_profit">
@@ -89,45 +89,48 @@
 <script>
   export default{
      name: 'orderConfirmPanel',
+     props: ['show_confirm','k_direction'],
      data () {
        return {
          boundage: 0.17,
          trade: {
-           amounts: [100,50,1000,2000,5000],
+           amounts: [100,500,1000,2000,5000],
            cycle: [
              {
                time: '30',
                inprice: 0.85,
+               outprice: 0.05
              },
              {
                time: '60',
                inprice: 0.85,
+               outprice: 0.05
              },
              {
                time: '120',
                inprice: 0.85,
+               outprice: 0.05
              },
              {
                time: '180',
                inprice: 0.85,
+               outprice: 0.05
              },
              {
                time: '300',
                inprice: 0.85,
+               outprice: 0.05
              }
            ]
          },
          user: {
-           amount: 2000
+           amount: 20000
          },
          order_params: {
            amount: '',
-           other_amount: 2000,
-           direction: 1,
-           cycle: {
-               inprice: 0.85,
-               outprice: 0.05
-             }
+           other_amount: '',
+           direction: this.k_direction,
+           cycle: {}
          },
          trade_money: {
            min_money: 10,
@@ -143,15 +146,27 @@
      },
      methods: {
        min_money () {
-
+        if((this.order_params.other_amount>500)&&(event.keyCode!=8)) {
+            event.preventDefault()
+         }
        },
        change_cycle (c) {
          this.order_params.cycle = c
        },
        change_amount (a) {
-        this.order_params.amount = a;
-        this.order_params.other_amount = "";
+         this.order_params.amount = a;
+         this.order_params.other_amount = "";
+       },
+       toggle_order_confirm_panel () {
+         this.$emit('toggle_order_confirm_panel')
+       },
+       order () {
+         this.$emit('order');
        }
+     },
+     mounted: function() {
+       this.order_params.cycle = this.trade.cycle[0];
+       this.order_params.amount = this.trade.amounts[0];
      }
   }
 </script>

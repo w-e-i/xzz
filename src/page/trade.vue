@@ -120,22 +120,26 @@
     <!--<div ng-include="'templates/history-order-panel.html'"></div>-->
     <transition name="popup">
       <history-order-panel v-if="show_history" @toggle_history_order_panel="toggle()"></history-order-panel>
-      <order-confirm-panel v-if="show_confirm"></order-confirm-panel>
     </transition>
+    <order-confirm-panel v-if="show_confirm" @toggle_order_confirm_panel="toggle_confirm()" @order="toggle_state()" :k_direction="buy_direction"></order-confirm-panel>
+    <order-state-panel v-if="show_state" :s_direction="buy_direction" @toggle_order_state_panel="toggle_order_state()" @continue_order="continue_buy"></order-state-panel>
   </div>
 
 
 </template>
 
 <script>
-  import HistoryOrderPanel from '../components/history-order-panel.vue';
-  import OrderConfirmPanel from '../components/order-confirm-panel.vue';
+  import HistoryOrderPanel from '../page/history-order-panel.vue';
+  import OrderConfirmPanel from '../page/order-confirm-panel.vue';
+  import OrderStatePanel from '../page/order-state-panel.vue';
   export default{
     name: 'trade',
     data() {
       return {
         show_history: false,
         show_confirm: false,
+        show_state: false,
+        buy_direction: '',
         qoute: {
           state: 'up',
           decimal: 4,
@@ -148,7 +152,7 @@
       }
     },
     components: {
-      HistoryOrderPanel,OrderConfirmPanel
+      HistoryOrderPanel,OrderConfirmPanel,OrderStatePanel
     },
     methods: {
       toggle_history_order_panel() {
@@ -157,15 +161,29 @@
       toggle() {
         this.show_history = !this.show_history
       },
+      toggle_confirm() {
+        this.show_confirm = !this.show_confirm
+      },
       toggle_order_confirm_panel(direction) {
         if(this.show_history) {
           this.show_history = !this.show_history
         };
         this.show_confirm = !this.show_confirm;
+        this.buy_direction = direction == 'lookup' ? '1' : '0';
+      },
+      toggle_state() {
+        this.show_state = !this.show_state;
+        this.show_confirm = !this.show_confirm
+      },
+      toggle_order_state() {
+        if(this.show_state) {
+          this.show_state = !this.show_state
+        }
+      },
+      continue_buy() {
+        this.show_state = !this.show_state;
+        this.show_confirm = !this.show_confirm;
       }
-    },
-    mounted: function() {
-      console.log(this.$route.params)
     }
   }
 </script>
@@ -807,11 +825,10 @@
     width: 100%;
     position: absolute;
     right: 50%;
-    -webkit-animation: run 5s linear;
     animation-fill-mode: forwards;
 
 }
-@-webkit-keyframes run{
+@keyframes run{
 	0{
 		transform: rotate(0);
 	}
@@ -826,10 +843,9 @@
     width: 100%;
     position: absolute;
     left: 50%;
-    -webkit-animation: runaway 5s linear;
     animation-fill-mode: forwards;
 }
-@-webkit-keyframes runaway{
+@keyframes runaway{
 	0{
 		transform: rotate(0);
 	}

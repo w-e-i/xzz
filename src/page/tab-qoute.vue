@@ -142,10 +142,10 @@
             mode: 1,
             code: 1111,
             name: '按需',
-            state: 'up',
-            value: 11111,
-            high: 11111,
-            low: 11111,
+            state: 'down',
+            value: 22222,
+            high: 22222,
+            low: 121,
             decimal: 2
           },
           {
@@ -402,12 +402,27 @@
     top: -10px;
   }
 
+  .qoute-view {
+    top: 25px;
+  }
+
+  .qoute-view > .qoute-view-header {
+    position: fixed;
+    width: 100%;
+    top: 40px;
+    z-index: 10;
+  }
+
   .order-view > .order-view-header > ul,
   .qoute-view > .qoute-view-header > ul {
     width: 100%;
     display: flex;
     padding: 0;
     list-style: none;
+  }
+
+  .qoute-view > .qoute-view-header > ul {
+    margin: 0;
   }
 
   .order-view > .order-view-header > ul > li,
@@ -460,6 +475,10 @@
     list-style: none;
   }
 
+  .qoute-view .qoute-view-content ul:nth-of-type(1) {
+    margin-top: 13px;
+  }
+
   .order-view .order-view-content ul > li,
   .qoute-view .qoute-view-content ul > li {
     color: white;
@@ -489,5 +508,23 @@
     cursor: pointer;
     text-align: center;
     text-decoration: none;
+  }
+
+  .rise-value {
+    color: white;
+    margin-top: 8px;
+    height: 30px !important;
+    line-height: 30px !important;
+    border-radius: 4px;
+    background-color: rgb(246, 41, 59);
+  }
+
+  .fall-value {
+    color: white;
+    margin-top: 8px;
+    height: 30px !important;
+    line-height: 30px !important;
+    border-radius: 6px;
+    background-color: rgb(28, 190, 82);
   }
 </style>

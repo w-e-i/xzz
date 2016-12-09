@@ -67,7 +67,6 @@
     },
     methods: {
       toggle_history_order_panel () {
-        this.show_history == false,
         this.$emit('toggle_history_order_panel')
       }
     }
