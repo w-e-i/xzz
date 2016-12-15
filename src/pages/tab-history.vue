@@ -10,7 +10,7 @@
       <!--持仓明细-->
       <ul v-if="activeTab === '持仓明细'" class="refresh-container">
         <mu-refresh-control :refreshing="refreshing" :trigger="trigger" @refresh="refresh"/>
-        <li v-for="o in order_list" @click="show_hold_order_modal(o);">
+        <li v-for="o in order_list" @click="show_hold_order_modal();">
           <section>
             <p>
               <span>{{o.assets.name}}</span>
@@ -38,7 +38,7 @@
        <!--历史明细-->
       <ul v-if="activeTab === '历史明细'" class="refresh-container">
         <mu-refresh-control :refreshing="refreshing" :trigger="trigger" @refresh="refresh"/>
-        <li v-for="o in close_order_list" @click="show_close_order_modal(o);">
+        <li v-for="o in close_order_list" @click="show_close_order_modal();">
           <section>
             <p>
               <span>{{o.assets.name}}</span>
@@ -55,12 +55,14 @@
         </li>
         <mu-infinite-scroll :scroller="scroller" :loading="loading" @load="loadMore"/>
       </ul>
-      <holdOrderModal></holdOrderModal>
+      <holdOrderModal v-if="show_hold" @closedown="toggle_hold"></holdOrderModal>
+      <closeOrderModal v-if="show_close" @closedown="toggle_close"></closeOrderModal>
   </div>
 </template>
 
 <script>
   import holdOrderModal from './hold-order-modal.vue';
+  import closeOrderModal from './close-order-modal.vue';
   export default {
     name: 'tabHistory',
     data () {
@@ -70,6 +72,8 @@
          trigger: null,
          loading: false,
          scroller: null,
+         show_hold: false,
+         show_close: false,
          order_list: [
            {
              assets: {
@@ -111,7 +115,7 @@
       }
     },
     components: {
-      holdOrderModal
+      holdOrderModal,closeOrderModal
     },
     mounted () {
       this.trigger = this.$el,
@@ -134,6 +138,18 @@
           alert(456)
           this.loading = false
         }, 2000)
+      },
+      show_hold_order_modal () {
+        this.show_hold = true
+      },
+      toggle_hold () {
+        this.show_hold = !this.show_hold
+      },
+      show_close_order_modal() {
+        this.show_close = true
+      },
+      toggle_close() {
+        this.show_close = !this.show_close
       }
     }
   }

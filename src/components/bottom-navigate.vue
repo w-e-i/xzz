@@ -72,6 +72,9 @@ export default {
   }
   body {
     background-color: rgb(25, 25, 26);
+    font-family: 微软雅黑;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   .mu-paper {
     position: fixed;

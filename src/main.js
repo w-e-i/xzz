@@ -13,13 +13,13 @@ Vue.use(VueResource);
 Vue.use(Vuex);
 Vue.use(MuseUI);
 
-import signin from './page/signin.vue';
-import signup from './page/signup.vue';
-import tabHistory from './page/tab-history.vue';
-import tabProfile from './page/tab-profile.vue';
-import tabQoute from './page/tab-qoute.vue';
+import signin from './pages/signin.vue';
+import signup from './pages/signup.vue';
+import tabHistory from './pages/tab-history.vue';
+import tabProfile from './pages/tab-profile.vue';
+import tabQoute from './pages/tab-qoute.vue';
 import bottomNavigator from './components/bottom-navigate.vue';
-import trade from './page/trade.vue';
+import trade from './pages/trade.vue';
 
 const router = new VueRouter ({
   routes: [

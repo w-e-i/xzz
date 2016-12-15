@@ -43,14 +43,24 @@
         <span style="display: none;">分享<i class="iconfont">&#xe651;</i></span>
       </p>
     </footer>
+    <userInfoModal v-if="show_info" @closedown="toggle_info"></userInfoModal>
+    <userChangeModal v-if="show_change" @closedown="toggle_change"></userChangeModal>
+    <capitalDepositModal v-if="capital" @close="toggle_capital"></capitalDepositModal>
   </div>
 </template>
 
 <script>
+    import userInfoModal from './user-info-modal.vue';
+    import userChangeModal from './user-change-modal.vue';
+    import capitalDepositModal from './capital-deposit-modal.vue';
     export default {
       name: 'tabProfile',
       data () {
         return {
+          show_info: false,
+          show_change: false,
+          show_deposit: true,
+          capital: false,
           user: {
             username: '张三',
             amount: 200.999
@@ -58,6 +68,29 @@
           logobg: require('../assets/img/logobg.jpg'),
           qrcode_url: require('../assets/img/test.jpg')
         }
+      },
+      methods: {
+        toggle_info() {
+          this.show_info = !this.show_info
+        },
+        show_user_bank_modal() {
+          this.show_info = true
+        },
+        toggle_change() {
+          this.show_change = !this.show_change
+        },
+        show_user_modal() {
+          this.show_change = true
+        },
+        show_deposit_modal() {
+          this.capital = true
+        },
+        toggle_capital() {
+          this.capital = !this.capital
+        }
+      },
+      components: {
+        userInfoModal,userChangeModal,capitalDepositModal
       }
     }
 </script>

@@ -129,9 +129,9 @@
 </template>
 
 <script>
-  import HistoryOrderPanel from '../page/history-order-panel.vue';
-  import OrderConfirmPanel from '../page/order-confirm-panel.vue';
-  import OrderStatePanel from '../page/order-state-panel.vue';
+  import HistoryOrderPanel from './history-order-panel.vue';
+  import OrderConfirmPanel from './order-confirm-panel.vue';
+  import OrderStatePanel from './order-state-panel.vue';
   export default{
     name: 'trade',
     data() {
