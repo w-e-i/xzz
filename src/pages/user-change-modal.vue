@@ -1,8 +1,8 @@
 <template>
-  <popupModal>
+  <popupModal :action="edit_action">
     <mu-appbar :title="user.username" slot="header" style="text-align: center">
       <div class="shut_down" @click="closedown()" slot="left">
-        <i class="material-icons icon-close">close</i>
+        <i class="iconfont icon-close"></i>
       </div>
     </mu-appbar>
 
@@ -24,10 +24,12 @@
 
 <script>
   import popupModal from '../components/popup-modal.vue';
+  import Bus from '../bus.js';
   export default{
     name: 'userChangeModal',
     data () {
       return {
+         edit_action: false,
          toast: false,
          tips: '',
          user: {
@@ -47,7 +49,7 @@
       update_user_pass() {
          this.toast = true;
          if (this.toastTimer) clearTimeout(this.toastTimer);
-         this.toastTimer = setTimeout(() => { this.toast = false;this.closedown() }, 2000);
+         this.toastTimer = setTimeout(() => { this.toast = false;if(this.tips==='修改成功！'){this.closedown()} }, 2000);
         if (this.change_userpass.oldpass == ""||this.change_userpass.newpass == ""||this.change_userpass.newpassangin == "") {
             this.tips = "密码不能为空"
             return;
@@ -63,8 +65,15 @@
         this.tips = "修改成功！";
       },
       closedown() {
-        this.$emit('closedown')
+        this.edit_action = false
       }
+    },
+    mounted() {
+      var self = this;
+      Bus.$on('show_user_modal',function() {
+        self.edit_action = true;
+        Bus.$emit('user_change_modal')
+      })
     }
   }
 </script>

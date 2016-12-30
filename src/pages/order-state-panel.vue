@@ -4,7 +4,7 @@
       <div>
         {{ qoute.name }}
         <div class="close" @click="toggle_order_state_panel()">
-          <i class="material-icons icon-close">close</i>
+          <i class="iconfont icon-close"></i>
         </div>
       </div>
     </div>
@@ -54,7 +54,7 @@
       <div class="wait" v-show="order_result.status == 'POST'">
         <mu-row gutter>
           <mu-col>
-            <i class="material-icons airplane">airplanemode_active</i>
+            <i class="iconfont icon-plane"></i>
             <span>{{ order_result.message }}</span>
           </mu-col>
         </mu-row>
@@ -150,23 +150,20 @@
           that.order_result.status = 'SUCCESS'
         },1000)
         if(this.order_result.order.remaining >0) {
-        function countdown() {
-          that.order_result.order.remaining -= 1;
-          var timer = setTimeout(countdown,1000);
-          if(that.order_result.order.remaining <= 0) {
-            that.order_result.status = 'POST';
-            setTimeout(function(){
-              that.order_result.status = 'FINISH';
-            },1000);
-            clearTimeout(timer);
+          function countdown() {
+            that.order_result.order.remaining -= 1;
+            var timer = setTimeout(countdown,1000);
+            if(that.order_result.order.remaining <= 0) {
+              that.order_result.status = 'POST';
+              setTimeout(function(){
+                that.order_result.status = 'FINISH';
+              },1000);
+              clearTimeout(timer);
+            }
           }
+          countdown();
         }
-        countdown();
       }
-      }
-
-
-
     }
   }
 </script>
@@ -221,24 +218,24 @@
 }
 @-moz-keyframes run{
 	0{
-		-webkit-transform: rotate(0);
+		-moz-transform: rotate(0);
 	}
 	50%{
-		-webkit-transform: rotate(180deg);
+		-moz-transform: rotate(180deg);
 	}
 	100% {
-		-webkit-transform: rotate(180deg);
+		-moz-transform: rotate(180deg);
 	}
 }
 @keyframes run{
 	0{
-		-webkit-transform: rotate(0);
+		transform: rotate(0);
 	}
 	50%{
-		-webkit-transform: rotate(180deg);
+		transform: rotate(180deg);
 	}
 	100% {
-		-webkit-transform: rotate(180deg);
+		transform: rotate(180deg);
 	}
 }
 .left_circle > img {
@@ -264,24 +261,24 @@
 }
 @keyframes runaway{
 	0{
-		-webkit-transform: rotate(0);
+		transform: rotate(0);
 	}
 	50%{
-		-webkit-transform: rotate(0);
+		transform: rotate(0);
 	}
 	100% {
-		-webkit-transform: rotate(180deg);
+		transform: rotate(180deg);
 	}
 }
 @-moz-keyframes runaway{
 	0{
-		-webkit-transform: rotate(0);
+		-moz-transform: rotate(0);
 	}
 	50%{
-		-webkit-transform: rotate(0);
+		-moz-transform: rotate(0);
 	}
 	100% {
-		-webkit-transform: rotate(180deg);
+		-moz-transform: rotate(180deg);
 	}
 }
 
@@ -469,7 +466,7 @@
 
 .trade .order-state-panel .button_row {
 	position: absolute;
-	bottom: 15px;
+	bottom: -15px;
 	padding-right: 20px !important;
 	width: 100%;
 }

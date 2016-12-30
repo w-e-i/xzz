@@ -1,8 +1,8 @@
 <template>
-  <popupModal>
+  <popupModal :action="close_action">
     <mu-appbar title="历史明细" slot="header" style="text-align: center">
       <div class="shut_down" @click="closedown()" slot="left">
-        <i class="material-icons icon-close">close</i>
+        <i class="iconfont icon-close"></i>
       </div>
     </mu-appbar>
 
@@ -36,10 +36,12 @@
 
 <script>
   import popupModal from '../components/popup-modal.vue';
+  import Bus from '../bus.js';
   export default{
     name: 'closeOrderModal',
     data () {
       return {
+        close_action: false,
         modal_close_order: {
           direction: 1,
           buyQoute: 115.67,
@@ -62,8 +64,14 @@
     },
     methods: {
       closedown() {
-        this.$emit('closedown')
+        this.close_action = false
       }
+    },
+    mounted() {
+      var self = this;
+      Bus.$on('show_close_order_modal',function() {
+        self.close_action = true
+      })
     }
   }
 </script>

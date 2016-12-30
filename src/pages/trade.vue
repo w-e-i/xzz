@@ -41,35 +41,18 @@
         </mu-col>
       </mu-row>
     </div>
-    <div class="trade-chart">
-      <div class="trade-chart-bar">
-        <mu-row gutter>
-          <mu-col width="12.5">
-            <span class="trade-chart-type stock active" @click="change_chart_type('stock')">K线</span>
-          </mu-col>
-          <mu-col width="12.5">
-            <span class="trade-chart-type line" @click="change_chart_type('line')">走势</span>
-          </mu-col>
-          <mu-col width="12.5">
-            <span class="trade-chart-period m1 active" @click="change_chart_period('m1')">M1</span>
-          </mu-col>
-          <mu-col width="12.5">
-            <span class="trade-chart-period m5" @click="change_chart_period('m5')">M5</span>
-          </mu-col>
-          <mu-col width="12.5">
-            <span class="trade-chart-period m15" @click="change_chart_period('m15')">M15</span>
-          </mu-col>
-          <mu-col width="12.5">
-            <span class="trade-chart-period m30" @click="change_chart_period('m30')">M30</span>
-          </mu-col>
-          <mu-col width="12.5">
-            <span class="trade-chart-period h1" @click="change_chart_period('h1')">H1</span>
-          </mu-col>
-          <mu-col width="12.5">
-            <span class="trade-chart-period d1" @click="change_chart_period('d1')">D1</span>
-          </mu-col>
-        </mu-row>
-      </div>
+    <nav>
+      <article>
+        <span class="trade-chart-type stock active" @click="change_chart_type('stock')">k线</span>
+        <span class="trade-chart-type line" @click="change_chart_type('line')">走势</span>
+      </article>
+      <section class="trade-chart-period m1" @click="change_chart_period('m1')">1M</section>
+      <section class="trade-chart-period m5 active" @click="change_chart_period('m5')">5M</section>
+      <section class="trade-chart-period m15" @click="change_chart_period('m15')">15M</section>
+      <section class="trade-chart-period m30" @click="change_chart_period('m30')">30M</section>
+      <section class="trade-chart-period h1" @click="change_chart_period('h1')">1H</section>
+      <section class="trade-chart-period d1" @click="change_chart_period('d1')">1D</section>
+    </nav>
 
       <!--<div class="trade-chart">-->
         <!--<ng-echarts ec-config="chart_config"  ec-option="chart_option" class="history-chart"></ng-echarts>-->
@@ -198,8 +181,8 @@
     background-color: rgb(33, 33, 37);
 }
 
-.trade-content .row,
-.trade-content .row .col {
+.trade .row,
+.trade .row .col {
     margin: 0px;
     padding: 0px;
     height: 80px;
@@ -475,20 +458,9 @@
     font-size: 12px !important;
 }
 
-.trade-view .history-panel {
-    position: absolute;
-    top: 100%;
-    left: 0px;
-    right: 0px;
-    bottom: 100%;
-    background-color: rgb(30, 30, 40);
 
-    -moz-box-shadow:2px 2px 5px #333333;
-    -webkit-box-shadow:2px 2px 5px #333333;
-    box-shadow:2px 2px 5px #333333;
-}
 
-.trade-view .history-panel.open {
+.trade .history-panel.open {
     top: 250px;
     bottom: 44px;
     -webkit-transition: top 300ms ease-out;
@@ -498,8 +470,7 @@
     transition: top 300ms ease-out;
 }
 
-.trade-view .order-confirm-panel {
-    display: none;
+.trade .order-confirm-panel {
     position: absolute;
     width: 90%;
     top: 50%;
@@ -513,11 +484,11 @@
     z-index: 20;
 }
 
-.trade-view .order-confirm-panel.open {
+.trade .order-confirm-panel.open {
     display: block;
 }
 
-.trade-view .order-confirm-panel .period {
+.trade .order-confirm-panel .period {
     width: 100%;
     height: 130px;
     padding: 10px 5px 0px 10px;
@@ -525,12 +496,12 @@
     border-top: 1px solid #2b2930;
 }
 
-.trade-view .order-confirm-panel .period .scroll {
+.trade .order-confirm-panel .period .scroll {
     width: 100%;
     height: 100%;
 }
 
-.trade-view .order-confirm-panel .period .period-widget-view {
+.trade .order-confirm-panel .period .period-widget-view {
     width: 2000px;
 }
 
@@ -559,27 +530,27 @@
     width: 100px;
 }
 
-.trade-view .order-confirm-panel .amount {
+.trade .order-confirm-panel .amount {
     width: 100%;
     height: 70px;
     padding: 2px 5px 0px 10px;
     overflow: hidden;
 }
 
-.trade-view .order-confirm-panel .amount .scroll-view {
+.trade .order-confirm-panel .amount .scroll-view {
     width: 75%;
     margin-right: 5px;
     height: 50px;
     float: left;
 }
 
-.trade-view .order-confirm-panel .amount .scroll {
+.trade .order-confirm-panel .amount .scroll {
     width: 100%;
     height: 50px;
     float: left;
 }
 
-.trade-view .order-confirm-panel .period .period-widget-view {
+.trade .order-confirm-panel .period .period-widget-view {
     width: 2000px;
 }
 
@@ -606,7 +577,7 @@
     color: #fdbe19;
 }
 
-.trade-view .order-confirm-panel .amount .amount-view {
+.trade .order-confirm-panel .amount .amount-view {
     width: 2000px;
 }
 
@@ -763,8 +734,7 @@
     border-radius: 3px;
 }
 
-.trade-view .order-state-panel {
-    display: none;
+.trade .order-state-panel {
     position: absolute;
     width: 90%;
     top: 50%;
@@ -776,6 +746,187 @@
     border-radius: 10px;
     z-index: 20;
 }
+
+.trade header{
+  height: 0.7rem;
+  width: 100%;
+  border-top:1px solid black;
+  display: flex;
+}
+.trade header section{
+  height: 0.7rem;
+  -webkit-flex-basis: 20%;
+  flex-basis: 20%;
+  padding-top: 0.15rem;
+}
+.trade header section p{
+  margin:0;
+  height: 0.2rem;
+  line-height: 0.2rem;
+  font-size: 0.12rem;
+  width: 100%;
+  text-align: left;
+  color: #737373;
+}
+.trade header section p:nth-of-type(2){
+  font-size: 0.16rem;
+  font-weight: 700;
+}
+.trade header section:nth-of-type(1){
+  padding: 0;
+  -webkit-flex-basis: 40%;
+  flex-basis: 40%;
+  font-size: 0.3rem;
+  text-align: center;
+  line-height: 0.7rem;
+  font-weight: 800;
+}
+.trade nav{
+  height: 0.4rem;
+  background: #252529;
+  display: flex;
+  width: 100%;
+  padding: 0 2%;
+}
+.trade nav section{
+  flex: 1;
+  color: #737373;
+  margin-top:0.03rem;
+  height: 0.34rem;
+  line-height: 0.34rem;
+  text-align: center;
+  font-size: 0.13rem;
+}
+.trade nav article{
+  padding: 0 0.02rem;
+  flex: 2;
+  height: 0.3rem;
+  display: flex;
+  border-radius:0.1rem ;
+  background: #17171a;
+  color: white;
+  margin-top:0.05rem ;
+}
+.trade nav article span{
+  display: inline-block;
+  height: 0.26rem;
+  margin-top:0.02rem;
+  flex: 1;
+  text-align: center;
+  font-weight: 700;
+  line-height: 0.26rem;
+}
+.trade nav article span.active{
+  color: #fdbe19;
+  background: #323237;
+  border-radius:0.1rem ;
+  box-shadow: 0 0 2px #3e3c42;
+
+}
+.trade nav section.active{
+  color: #fdbe19;
+  border-bottom:1px solid #fdbe19 ;
+}
+.trade footer{
+  width: 100%;
+  height: 4.4rem;
+  position: relative;
+}
+.trade footer .history_chart{
+  position: absolute !important;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  height: 4.4rem;
+}
+.trade footer .chart-tip {
+  position: absolute;
+  left: 0.1rem;
+  top: -0.5%;
+  color: white;
+}
+
+.trade footer .func-tip {
+  position: absolute;
+  left: 0.1rem;
+  top: 70%;
+  color: white;
+}
+
+.trade footer .chart-tip > ul > li {
+  float: left;
+  margin-right: 5px;
+  font-size: 12px;
+}
+
+.trade footer .func-tip > ul > li {
+  float: left;
+  margin-right: 5px;
+  font-size: 12px;
+}
+
+.trade footer .history-open {
+  color: red;
+}
+
+.trade footer .history-close {
+  color: blue;
+}
+
+.trade footer .history-high {
+  color: green;
+}
+
+.trade footer .history-low {
+  color: yellow;
+}
+.trade .trade_bar{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 0.5rem;
+  display: flex;
+  width: 100%;
+  z-index: 9999;
+}
+.trade .trade_bar section{
+  -webkit-flex-basis: 30%;
+  flex-basis: 30%;
+  height: 0.5rem;
+  font-size: 0.12rem;
+  text-align: center;
+  padding-top:0.05rem ;
+}
+.trade .trade_bar section p{
+  margin: 0;
+  height: 0.2rem;
+  line-height: 0.2rem;
+}
+.trade .trade_bar section p span{
+  color: #fdbe19;
+}
+.trade .trade_bar section i{
+  font-size: 0.18rem;
+  display: block;
+  height: 0.2rem;
+  line-height: 0.2rem;
+}
+.trade .trade_bar section:nth-of-type(1){
+  -webkit-flex-basis: 40%;
+  flex-basis: 40%;
+  background: #353539;
+  color: #abacae;
+}
+.trade .trade_bar section:nth-of-type(2){
+  background: #d83f4e;
+  color: #252323;
+}
+.trade .trade_bar section:nth-of-type(3){
+  background: #1fc65b;
+  color: #252323;
+}
+
+
 
 /*历史记录页面动画*/
 .history-panel {
@@ -857,26 +1008,26 @@
 	}
 }
 
-.trade-view .order-state-panel .close {
+.trade .order-state-panel .close {
 	line-height: 44px;
 	color: #6d6d6d;
 	font-size: 28px;
 	vertical-align: middle;
 }
 
-.trade-view .order-state-panel .success {
+.trade .order-state-panel .success {
     color: white;
     border-top: 1px solid #2b2930;
 }
 
-.trade-view .order-state-panel .success .pupil_success {
+.trade .order-state-panel .success .pupil_success {
     position: relative;
     height: 150px;
     text-align: center;
     padding-left: 0px !important;
 }
 
-.trade-view .order-state-panel .success .pupil_success p:nth-of-type(1) {
+.trade .order-state-panel .success .pupil_success p:nth-of-type(1) {
     position: absolute;
     top:0;
     bottom:0;
@@ -888,7 +1039,7 @@
     height:20px;
 }
 
-.trade-view .order-state-panel .success .pupil_success p:nth-of-type(2) {
+.trade .order-state-panel .success .pupil_success p:nth-of-type(2) {
     position: absolute;
     top:60%;
     width: 100%;
@@ -898,89 +1049,89 @@
     text-align: center;
 }
 
-.trade-view .order-state-panel .success .pupil_success p:nth-of-type(2) span {
+.trade .order-state-panel .success .pupil_success p:nth-of-type(2) span {
     color: #6d6d6d;
 }
 
-.trade-view .order-state-panel .success .row {
+.trade .order-state-panel .success .row {
     height: 70px;
     padding-top: 10px !important;
     border-top: 1px solid #333235;
 }
 
-.trade-view .order-state-panel .success .row .col {
+.trade .order-state-panel .success .row .col {
     height: 30px;
 }
 
-.trade-view .order-state-panel .success .info_list .col {
+.trade .order-state-panel .success .info_list .col {
     height: 40px;
     border-right: 1px solid #000;
     border-left: 1px solid #333235;
 }
 
-.trade-view .order-state-panel .success .info_list .first_info {
+.trade .order-state-panel .success .info_list .first_info {
     border-left: 0;
 }
 
-.trade-view .order-state-panel .success .info_list .last_info {
+.trade .order-state-panel .success .info_list .last_info {
     border-right: 0;
 }
 
-.trade-view .order-state-panel .success .row .col > p:nth-child(1) {
+.trade .order-state-panel .success .row .col > p:nth-child(1) {
     font-size: 12px;
     color: #6d6d6d;
     text-align: center;
     margin-bottom: 0;
 }
 
-.trade-view .order-state-panel .success .row .col > p:nth-child(2) {
+.trade .order-state-panel .success .row .col > p:nth-child(2) {
     font-size: 14px;
     color: #fff;
     text-align: center;
 }
 
-.trade-view .order-state-panel .success .remaining {
+.trade .order-state-panel .success .remaining {
     position: relative;
     height: 138px;
     border-bottom: 1px solid #000;
 }
 
-.trade-view .order-state-panel .success .count_remaining {
+.trade .order-state-panel .success .count_remaining {
 	margin-top: -128px !important;
 }
 
-.trade-view .order-state-panel .success .remaining > div >div:nth-of-type(1) {
+.trade .order-state-panel .success .remaining > div >div:nth-of-type(1) {
     font-size: 40px;
     color: #fdbe19;
     text-align: center;
     margin-top: 19px;
 }
 
-.trade-view .order-state-panel .success .remaining > div >div:nth-of-type(2) {
+.trade .order-state-panel .success .remaining > div >div:nth-of-type(2) {
     font-size: 12px;
     color: #6d6d6d;
     text-align: center;
     margin-top: 16px;
 }
 
-.trade-view .order-state-panel .success .remaining > div >div:nth-of-type(3) {
+.trade .order-state-panel .success .remaining > div >div:nth-of-type(3) {
     font-size: 14px;
     color: #fa2e42;
     text-align: center;
 }
 
-.trade-view .order-state-panel .success .finish_remaining .result_profit {
+.trade .order-state-panel .success .finish_remaining .result_profit {
     margin-top: 0 !important;
     height: 105px;
     line-height: 105px;
 }
 
-.trade-view .order-state-panel .success .finish_remaining .expired_statements {
+.trade .order-state-panel .success .finish_remaining .expired_statements {
     margin-top: -30px !important;
 }
 
 
-.trade-view .order-state-panel .success .remaining > .col {
+.trade .order-state-panel .success .remaining > .col {
     color: red;
     font-size: 40px;
     text-align: center;
@@ -994,16 +1145,16 @@
     margin: auto !important;
 }
 
-.trade-view .order-state-panel .success .remaining > .col > img {
+.trade .order-state-panel .success .remaining > .col > img {
     width: 100px;
 }
 
-.trade-view .order-state-panel .wait .row {
+.trade .order-state-panel .wait .row {
     height: 150px;
     line-height: 150px;
 }
 
-.trade-view .order-state-panel .wait .row .col {
+.trade .order-state-panel .wait .row .col {
     color: white;
     font-size: 20px;
     text-align: center;
@@ -1012,18 +1163,18 @@
     padding-left: 0px !important;
 }
 
-.trade-view .order-state-panel .button_row {
+.trade .order-state-panel .button_row {
 	position: absolute;
-	bottom: 15px;
+	bottom: -15px;
 	padding-right: 20px !important;
 }
 
-.trade-view .order-state-panel .wait .row .col i {
+.trade .order-state-panel .wait .row .col i {
     color: yellow;
     font-size: 25px;
 }
 
-.trade-view .order-state-panel .fail .row .col {
+.trade .order-state-panel .fail .row .col {
     color: white;
     font-size: 20px;
     text-align: center;
@@ -1032,12 +1183,12 @@
     padding-left: 0px !important;
 }
 
-.trade-view .order-state-panel .fail .row .col i {
+.trade .order-state-panel .fail .row .col i {
     color: red;
     font-size: 25px;
 }
 
-.order-confirm-panel  .trade-view .order-state-panel .button {
+.order-confirm-panel  .trade .order-state-panel .button {
     width: 96%;
     color: white;
     margin-left: 2%;
@@ -1045,7 +1196,7 @@
     background-color: rgb(255, 91, 45);
 }
 
- .trade-view .order-state-panel .button {
+ .trade .order-state-panel .button {
     width: 100%;
     height: 40px;
     min-height: 0;

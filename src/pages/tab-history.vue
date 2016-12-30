@@ -9,7 +9,6 @@
     </header>
       <!--持仓明细-->
       <ul v-if="activeTab === '持仓明细'" class="refresh-container">
-        <mu-refresh-control :refreshing="refreshing" :trigger="trigger" @refresh="refresh"/>
         <li v-for="o in order_list" @click="show_hold_order_modal();">
           <section>
             <p>
@@ -33,11 +32,9 @@
             </i>
           </article>
         </li>
-        <mu-infinite-scroll :scroller="scroller" :loading="loading" @load="loadMore"/>
       </ul>
        <!--历史明细-->
       <ul v-if="activeTab === '历史明细'" class="refresh-container">
-        <mu-refresh-control :refreshing="refreshing" :trigger="trigger" @refresh="refresh"/>
         <li v-for="o in close_order_list" @click="show_close_order_modal();">
           <section>
             <p>
@@ -53,27 +50,21 @@
           <p>{{o.closed}}</p>
         </section>
         </li>
-        <mu-infinite-scroll :scroller="scroller" :loading="loading" @load="loadMore"/>
       </ul>
-      <holdOrderModal v-if="show_hold" @closedown="toggle_hold"></holdOrderModal>
-      <closeOrderModal v-if="show_close" @closedown="toggle_close"></closeOrderModal>
+      <holdOrderModal></holdOrderModal>
+      <closeOrderModal></closeOrderModal>
   </div>
 </template>
 
 <script>
   import holdOrderModal from './hold-order-modal.vue';
   import closeOrderModal from './close-order-modal.vue';
+  import Bus from '../bus.js';
   export default {
     name: 'tabHistory',
     data () {
       return {
          activeTab: '持仓明细',
-         refreshing: false,
-         trigger: null,
-         loading: false,
-         scroller: null,
-         show_hold: false,
-         show_close: false,
          order_list: [
            {
              assets: {
@@ -86,10 +77,26 @@
                value: 230,
                demical: 2
              },
-             created: new Date(),
+             created: '2016-12-22 17:45',
              profit: 100,
              remaining: 60,
-             alltime: 120
+             alltime: 100000
+           },
+           {
+             assets: {
+               name: '英镑/美元',
+             },
+             direction: 0,
+             money: 4396,
+             buyQoute: 145.33,
+             qoute: {
+               value: 230,
+               demical: 2
+             },
+             created: '2016-12-22 17:45',
+             profit: 0,
+             remaining: 60,
+             alltime: 70000
            }
          ],
          close_order_list: [
@@ -99,15 +106,69 @@
              },
              direction: 1,
              money: 7000,
-             buyQoute: 121.33,
-             endQoute: 123,
+             buyQoute: 117.5905,
+             endQoute: 117.5855,
              qoute: {
                value: 230,
                demical: 2
              },
-             created: new Date(),
-             closed: new Date(),
+             created: '2016-12-22 17:39',
+             closed: '2016-12-22 17:40',
              profit: 100,
+             remaining: 60,
+             alltime: 120
+           },
+           {
+             assets: {
+               name: '石油',
+             },
+             direction: 0,
+             money: 7000,
+             buyQoute: 114.5405,
+             endQoute: 114.5855,
+             qoute: {
+               value: 230,
+               demical: 2
+             },
+             created: '2016-12-22 17:39',
+             closed: '2016-12-22 17:40',
+             profit: -100,
+             remaining: 60,
+             alltime: 120
+           },
+           {
+             assets: {
+               name: '伦敦黄金',
+             },
+             direction: 0,
+             money: 7000,
+             buyQoute: 659.5405,
+             endQoute: 711.5855,
+             qoute: {
+               value: 230,
+               demical: 2
+             },
+             created: '2016-12-22 17:39',
+             closed: '2016-12-22 17:40',
+             profit: -2000,
+             remaining: 60,
+             alltime: 120
+           },
+           {
+             assets: {
+               name: '美元/加元',
+             },
+             direction: 1,
+             money: 7000,
+             buyQoute: 147.5795,
+             endQoute: 169.5485,
+             qoute: {
+               value: 230,
+               demical: 2
+             },
+             created: '2016-12-22 17:39',
+             closed: '2016-12-22 17:40',
+             profit: 4100,
              remaining: 60,
              alltime: 120
            }
@@ -117,39 +178,15 @@
     components: {
       holdOrderModal,closeOrderModal
     },
-    mounted () {
-      this.trigger = this.$el,
-      this.scroller = this.$el
-    },
     methods: {
       handleTabChange (val) {
         this.activeTab = val
       },
-      refresh() {
-        this.refreshing = true,
-        setTimeout(() => {
-          alert(123)
-          this.refreshing = false
-        }, 2000)
-      },
-      loadMore () {
-        this.loading = true
-        setTimeout(() => {
-          alert(456)
-          this.loading = false
-        }, 2000)
-      },
       show_hold_order_modal () {
-        this.show_hold = true
-      },
-      toggle_hold () {
-        this.show_hold = !this.show_hold
+        Bus.$emit('show_hold_order_modal')
       },
       show_close_order_modal() {
-        this.show_close = true
-      },
-      toggle_close() {
-        this.show_close = !this.show_close
+        Bus.$emit('show_close_order_modal')
       }
     }
   }
@@ -257,7 +294,7 @@
   }
   .tab_history ul li section:nth-of-type(1){
     width: 60%;
-    margin-left: 3%;
+    padding-left: 2%;
   }
 
   .tab_history ul li section:nth-of-type(1) p{
@@ -300,6 +337,11 @@
   }
   .tab_history ul li section:nth-of-type(1) p:nth-of-type(3){
     color: #696969;
+  }
+  .tab_history ul li section:nth-of-type(2) {
+    width: 40%;
+    padding-right: 2%;
+    float: right;
   }
   .tab_history ul li section:nth-of-type(2) p:nth-of-type(1){
     height: 0.35rem;

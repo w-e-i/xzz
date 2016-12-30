@@ -1,7 +1,9 @@
 <template>
   <div>
     <div>
-      <router-view></router-view>
+      <keep-alive include="tabProfile">
+        <router-view></router-view>
+      </keep-alive>
     </div>
     <div class="bottomNavigate">
      <ul>

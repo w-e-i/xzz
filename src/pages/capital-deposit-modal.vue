@@ -2,7 +2,7 @@
   <mu-popup position="bottom" popupClass="demo-popup-bottom" :open="bottomPopup">
     <mu-appbar title="用户入金" style="text-align: center">
       <div class="shut_down" @click="close('bottom')" slot="left">
-        <i class="material-icons icon-arrow">keyboard_arrow_left</i>
+        <i class="iconfont icon-arrow"></i>
       </div>
     </mu-appbar>
     <mu-content-block id="in_money_content">
@@ -166,17 +166,21 @@
           <span v-show="money_fee.inmoney_fee_type == 1">{{deposit.amount>0?deposit.amount+money_fee.inmoney_fee:0}}</span>
         </footer>
         <button class="newbutton outmoneybtn" :disabled="deposit.amount==''||deposit.amount==undefined||(deposit.amount<money_fee.inmoneymin)||(deposit.pay_type=='shangxin'&&!inmoneybank.bankmes)" @click="submit_deposit()">确认充值</button>
+        <mu-toast slot="toast" v-if="toast" :message="mes"/>
       </div>
     </mu-content-block>
   </mu-popup>
 </template>
 
 <script>
+  import Bus from '../bus.js';
   export default {
     name: 'capitalDepositModal',
     data() {
       return {
-        bottomPopup: true,
+        toast: false,
+        mes: false,
+        bottomPopup: false,
         iswecat: true,
         we_check: false,
         wei_check: false,
@@ -192,8 +196,8 @@
         xin_check: false,
         inmoneybank: {
           bankmes: {
-            name: '',
-            icon: ''
+            name: '工商银行',
+            icon: 'icon-gongshangyinhang red'
           }
         },
         deposit: {
@@ -406,7 +410,7 @@
               "outmoneymax":"",
               "inmoney_fee_type":"",
               "inmoney_fee": 12,
-              "inmoneymin":""
+              "inmoneymin":"100"
           },
           currency_symbol: '$',
           user: {
@@ -447,15 +451,21 @@
       },
       close (position) {
         this[position + 'Popup'] = false;
-        this.$emit('close')
       },
       submit_deposit() {
-        this.close()
+        this.toast = true;
+        this.mes = '入金申请提交成功！';
+        if (this.toastTimer) {clearTimeout(this.toastTimer)};
+        this.toastTimer = setTimeout(() => { this.toast = false; this.bottomPopup = false  }, 2000)
       }
     },
     mounted() {
       this.xin_check = true;
-      this.pay_bank_list[0].status = true
+      this.pay_bank_list[0].status = true;
+      var self = this;
+      Bus.$on('show_deposit_modal',function() {
+        self.bottomPopup = true
+      })
     }
   }
 </script>
@@ -499,6 +509,10 @@
     content: "√";
     color: #fdbe19;
     font-size: 0.1rem;
+}
+
+.icon-close {
+    color: #fff
 }
 
 /*入金弹框样式*/
@@ -551,7 +565,6 @@
 
 #in_money_content{
 	background: #1b1b1d;
-	margin-top: 10px;
 }
 #in_money_content header{
 	margin-bottom:0.1rem ;
@@ -860,7 +873,7 @@
 .out_money_content article span{
 	display: inline-block;
 	vertical-align: top;
-	width: 34%;
+	width: 41%;
 	font-size: 0.15rem;
 	color: #FFFFFF;
 	height: 0.3rem;
@@ -875,7 +888,7 @@
 .out_money_content article input{
 	display: inline-block;
 	vertical-align: top;
-	width: 60%;
+	width: 56%;
 	height: 0.2rem;
 	line-height: 0.2rem;
 	margin-top:0.1rem ;

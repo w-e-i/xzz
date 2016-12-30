@@ -1,7 +1,10 @@
 <template>
   <div class="tab_profile">
     <header>
-      <i @click="app_exit()" class="iconfont icon--9"></i>
+      <router-link to="/signin" replace>
+        <i @click="app_exit" class="iconfont icon--9"></i>
+      </router-link>
+      <!--<i @click="app_exit()" class="iconfont icon&#45;&#45;9"></i>-->
       <article>
         <img :src="logobg" />
       </article>
@@ -43,9 +46,11 @@
         <span style="display: none;">分享<i class="iconfont">&#xe651;</i></span>
       </p>
     </footer>
-    <userInfoModal v-if="show_info" @closedown="toggle_info"></userInfoModal>
-    <userChangeModal v-if="show_change" @closedown="toggle_change"></userChangeModal>
-    <capitalDepositModal v-if="capital" @close="toggle_capital"></capitalDepositModal>
+    <userInfoModal></userInfoModal>
+    <userChangeModal></userChangeModal>
+    <capitalDepositModal></capitalDepositModal>
+    <capitalWithdrawModal @go_add_bank="add_bank"></capitalWithdrawModal>
+    <capitalHistoryModal></capitalHistoryModal>
   </div>
 </template>
 
@@ -53,14 +58,13 @@
     import userInfoModal from './user-info-modal.vue';
     import userChangeModal from './user-change-modal.vue';
     import capitalDepositModal from './capital-deposit-modal.vue';
+    import capitalWithdrawModal from './capital-withdraw-modal.vue';
+    import capitalHistoryModal from './capital-history-modal.vue';
+    import Bus from '../bus.js';
     export default {
       name: 'tabProfile',
       data () {
         return {
-          show_info: false,
-          show_change: false,
-          show_deposit: true,
-          capital: false,
           user: {
             username: '张三',
             amount: 200.999
@@ -70,27 +74,33 @@
         }
       },
       methods: {
-        toggle_info() {
-          this.show_info = !this.show_info
-        },
         show_user_bank_modal() {
-          this.show_info = true
-        },
-        toggle_change() {
-          this.show_change = !this.show_change
+          Bus.$emit('show_user_bank_modal');
         },
         show_user_modal() {
-          this.show_change = true
+          Bus.$emit('show_user_modal');
         },
         show_deposit_modal() {
-          this.capital = true
+          Bus.$emit('show_deposit_modal');
         },
-        toggle_capital() {
-          this.capital = !this.capital
+        add_bank() {
+          Bus.$emit('add_bank');
+        },
+        show_withdraw_modal() {
+          Bus.$emit('show_withdraw_modal');
+        },
+        show_money_list() {
+          Bus.$emit('show_money_list');
+        },
+        app_exit() {
+          this.$router.go(-100)
+        },
+        handling() {
+          this.show_info = true
         }
       },
       components: {
-        userInfoModal,userChangeModal,capitalDepositModal
+        userInfoModal,userChangeModal,capitalDepositModal,capitalWithdrawModal,capitalHistoryModal
       }
     }
 </script>

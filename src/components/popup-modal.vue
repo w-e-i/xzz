@@ -1,11 +1,11 @@
 <template>
   <div class="order-modal">
-    <mu-popup position="bottom" popupClass="demo-popup-bottom" :open="true">
+    <mu-popup position="bottom" popupClass="demo-popup-bottom" :open="action">
       <slot name="header"></slot>
       <slot name="toast"></slot>
       <mu-content-block>
         <ul class="list">
-          <li class="item item-input">
+          <li class="item item-input" v-show="a_action">
             <span class="input-label">
               <slot name="slot_one_label"></slot>
             </span>
@@ -14,7 +14,7 @@
             </span>
             <slot name="slot_one_input"></slot>
           </li>
-          <li class="item item-input">
+          <li class="item item-input" v-show="b_action">
             <span class="input-label">
               <slot name="slot_two_label"></slot>
             </span>
@@ -23,7 +23,7 @@
             </span>
             <slot name="slot_two_input"></slot>
           </li>
-          <li class="item item-input">
+          <li class="item item-input" v-show="c_action">
             <span class="input-label">
               <slot name="slot_three_label"></slot>
             </span>
@@ -32,7 +32,7 @@
             </span>
             <slot name="slot_three_input"></slot>
           </li>
-          <li class="item item-input">
+          <li class="item item-input" v-show="d_action">
             <span class="input-label">
               <slot name="slot_four_label"></slot>
             </span>
@@ -41,7 +41,7 @@
             </span>
             <slot name="slot_four_input"></slot>
           </li>
-          <li class="item item-input">
+          <li class="item item-input" v-show="e_action">
             <span class="input-label">
               <slot name="slot_five_label"></slot>
             </span>
@@ -50,7 +50,7 @@
             </span>
             <slot name="slot_five_input"></slot>
           </li>
-          <li class="item item-input">
+          <li class="item item-input" v-show="f_action">
             <span class="input-label">
               <slot name="slot_six_label"></slot>
             </span>
@@ -59,7 +59,7 @@
             </span>
             <slot name="slot_six_input"></slot>
           </li>
-          <li class="item item-input">
+          <li class="item item-input" v-show="g_action">
             <span class="input-label">
               <slot name="slot_seven_label"></slot>
             </span>
@@ -68,7 +68,7 @@
             </span>
             <slot name="slot_seven_input"></slot>
           </li>
-          <li class="item item-input">
+          <li class="item item-input" v-show="h_action">
             <span class="input-label">
               <slot name="slot_eight_label"></slot>
             </span>
@@ -88,12 +88,41 @@
 </template>
 
 <script>
+  import Bus from '../bus.js';
   export default{
     name: 'popupModal',
+    props: ['action'],
     data() {
       return {
-        bottomPopup: true
+        a_action: true,
+        b_action: true,
+        c_action: true,
+        d_action: true,
+        e_action: true,
+        f_action: true,
+        g_action: true,
+        h_action: true
       }
+    },
+    mounted() {
+      var self = this;
+      Bus.$on('user_info_modal',function() {
+        self.a_action = true;
+        self.b_action = true;
+        self.c_action = true;
+        self.d_action = true;
+        self.e_action = true;
+        self.f_action = false;
+        self.g_action = false;
+        self.h_action = false
+      });
+      Bus.$on('user_change_modal',function() {
+        self.d_action = false;
+        self.e_action = false;
+        self.f_action = false;
+        self.g_action = false;
+        self.h_action = false
+      })
     }
   }
 </script>
@@ -146,7 +175,7 @@
 .mu-content-block .list {
     list-style: none;
     padding: 0;
-
+    margin: 0;
 }
 
 .mu-content-block .list > .item {
@@ -308,6 +337,12 @@
   margin: auto;
   text-align: center;
   width: 150px;
+}
+
+.icon-arrow {
+  font-size: 0.25rem;
+  color: #fff;
+  margin-top: 5px;
 }
 
 </style>

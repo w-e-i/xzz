@@ -1,8 +1,8 @@
 <template>
-    <popupModal>
+    <popupModal :action="hold_action">
       <mu-appbar title="持仓明细" slot="header" style="text-align: center">
         <div class="shut_down" @click="closedown()" slot="left">
-          <i class="material-icons icon-close">close</i>
+          <i class="iconfont icon-close"></i>
         </div>
       </mu-appbar>
 
@@ -37,10 +37,12 @@
 
 <script>
   import popupModal from '../components/popup-modal.vue';
+  import Bus from '../bus.js';
   export default{
     name: 'holdOrderModal',
     data () {
       return {
+        hold_action: false,
         modal_hold_order: {
           direction: 1,
           buyQoute: 115.67,
@@ -61,15 +63,18 @@
       }
     },
      methods: {
-      toggle_close_order_panel() {
-
-      },
       closedown() {
-        this.$emit('closedown')
+        this.hold_action = false
       }
     },
     components: {
       popupModal
+    },
+    mounted() {
+      var self = this;
+      Bus.$on('show_hold_order_modal',function() {
+        self.hold_action = true
+      })
     }
   }
 </script>

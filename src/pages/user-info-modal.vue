@@ -1,8 +1,8 @@
 <template>
-  <popupModal>
+  <popupModal :action="click_action">
     <mu-appbar title="修改银行资料" slot="header" style="text-align: center">
       <div class="shut_down" @click="closedown()" slot="left">
-        <i class="material-icons icon-arrow">keyboard_arrow_left</i>
+        <i class="iconfont icon-arrow"></i>
       </div>
     </mu-appbar>
 
@@ -26,17 +26,20 @@
     <a class="button button-balanced" @click="update_user()" slot="sell">确定</a>
     <a class="button button-dark" @click="closedown()" slot="shutdown">关闭</a>
 
-    <mu-toast slot="toast" v-if="toast" message="修改成功！"/>
+    <mu-toast slot="toast" v-if="toast" :message="mes"/>
   </popupModal>
 </template>
 
 <script>
   import popupModal from '../components/popup-modal.vue';
+  import Bus from '../bus.js';
   export default{
     name: 'userInfoModal',
     data () {
       return {
+        mes: '',
         bank: '中国农业银行',
+        click_action: false,
         toast: false,
         bank_list: [
           { "name": "中国农业银行", "code": "ABC" },
@@ -64,6 +67,12 @@
           bank_user: '',
           bank_card: '',
           id_card: ''
+        },
+        saved_info: {
+          bank_brand: '',
+          bank_user: '',
+          bank_card: '',
+          id_card: ''
         }
       }
     },
@@ -72,26 +81,57 @@
     },
     methods: {
       update_user() {
-        this.toast = true
+        this.toast = true;
+        if(this.user_info.bank_brand && this.user_info.bank_user && this.user_info.bank_card && this.user_info.id_card && this.saved_info !== this.user_info) {
+          this.mes = '修改成功！';
+          this.saved_info = this.user_info
+        }else if(this.user_info.bank_brand && this.user_info.bank_user && this.user_info.bank_card && this.user_info.id_card && this.saved_info === this.user_info){
+          this.mes = '信息无修改'
+        }else if(!this.user_info.bank_brand){
+          this.mes = '银行名称不能为空！'
+        }else if(!this.user_info.bank_user) {
+          this.mes = '银行户名不能为空！'
+        }else if(!this.user_info.bank_card) {
+          this.mes = '银行卡号不能为空！'
+        }else if (!this.user_info.id_card) {
+          this.mes = '身份证号不能为空！'
+        }
         if (this.toastTimer) clearTimeout(this.toastTimer)
-        this.toastTimer = setTimeout(() => { this.toast = false }, 2000)
+        this.toastTimer = setTimeout(() => { this.toast = false;if(this.mes === '修改成功！'){ if(Bus.$on('add_bank')){Bus.$emit('change_success');}this.closedown()};if(this.mes ==='信息无修改'){
+          this.closedown()
+        } }, 2000)
       },
       closedown() {
-        this.$emit('closedown')
+        this.click_action = false
       },
       only_number() {
         if((event.keyCode<48||event.keyCode>57)&&(event.keyCode<96||event.keyCode>105)&&(event.keyCode!=8)){
             event.preventDefault();
-          }
+         }
       }
+    },
+    mounted() {
+      var self = this;
+      Bus.$on('show_user_bank_modal',function() {
+        self.click_action = true;
+        Bus.$emit('user_info_modal')
+      });
+      Bus.$on('add_bank',function() {
+        self.click_action = true;
+      });
+
     }
   }
 </script>
 
 <style>
-.icon-arrow {
-  font-size: 0.25rem;
-  color: #fff;
-  margin-top: 5px;
+.mu-popover {
+  overflow-y: scroll;
 }
+
+.mu-content-block {
+  overflow-y: scroll;
+  margin-top: 0;
+}
+
 </style>

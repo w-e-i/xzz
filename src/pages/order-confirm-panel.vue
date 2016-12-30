@@ -4,7 +4,7 @@
       <div>
         订单确认
         <div class="close" @click="toggle_order_confirm_panel()">
-          <i class="material-icons icon-close">close</i>
+          <i class="iconfont icon-close"></i>
         </div>
       </div>
     </div>
@@ -76,7 +76,7 @@
             </mu-col>
           </mu-row>
           <p class="expect_profit">
-            <span>预期收益 :  &yen; {{ (order_params.other_amount == "" || order_params.other_amount == "0") ? (order_params.amount * order_params.cycle.inprice + order_params.amount).toFixed(2) : (order_params.other_amount * order_params.cycle.inprice + order_params.other_amount).toFixed(2) }}</span>
+            <span>预期收益 :  &yen; {{ (order_params.other_amount == "" || order_params.other_amount == "0") ? (order_params.amount * order_params.cycle.inprice + order_params.amount) : (order_params.other_amount * order_params.cycle.inprice + order_params.other_amount).toFixed(2) }}</span>
             &nbsp;&nbsp;
             <span>保底金额 :  &yen; {{ (order_params.amount * order_params.cycle.outprice).toFixed(2) }}</span>
           </p>
